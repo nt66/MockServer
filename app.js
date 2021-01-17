@@ -22,12 +22,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/index', require('./routes/index'));
-//生成接口地址，mock数据 ，respon 接口地址、mock数据
+
+// 生成接口地址，mock数据 ，respon 接口地址、mock数据
 app.get('/interface', function(req, res, next) {
 
-	// console.log(Guid.raw());
+	// 生成mock数据
 	var codeObj = JSON.parse(req.query.code);
 	var data = Mock.mock(codeObj);
+
+	//地址和数据映射
 	var param = {
 		"address": "http://10.3.10.73:8082/interface/" + Guid.raw().split('-').join(''),
 		"data": data
@@ -35,6 +38,7 @@ app.get('/interface', function(req, res, next) {
 	dataSource.data.push(param);
 	res.send(param);
 });
+
 //访问接口地址，respon mock数据
 app.get('/interface/:id', function(req, res, next) {
 	var routeID = req.params.id;
@@ -49,7 +53,7 @@ app.get('/interface/:id', function(req, res, next) {
 			}
 		}
 	});
-	res.send('');
+	res.send('该结构无数据生成');
 });
 
 module.exports = app;
